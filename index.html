@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile CAPTCHA</title>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+font-family: Arial, sans-serif;
+min-height: 100vh;
+background: #f1f3f4;
+}
+
+/* ===== Wrapper FIX ===== */
+.wrapper {
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: flex-start; /* 👈 đẩy lên trên */
+padding-top: 80px; /* 👈 khoảng cách từ top (chỉnh 60–120px tùy ý) */
+}
+
+/* ===== Container ===== */
+.container {
+width: 100%;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+/* ===== Promo Box ===== */
+.promo-box {
+width: 90%;
+max-width: 320px;
+margin-bottom: 12px;
+padding: 12px;
+text-align: center;
+background: #fff3cd;
+border: 1px solid #ffeeba;
+border-radius: 10px;
+font-size: 13px;
+font-weight: bold;
+color: #856404;
+box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+animation: shake 0.8s infinite;
+}
+
+@keyframes shake {
+0% { transform: translateX(0); }
+25% { transform: translateX(-2px); }
+50% { transform: translateX(2px); }
+75% { transform: translateX(-2px); }
+100% { transform: translateX(0); }
+}
+
+/* ===== CAPTCHA ===== */
+.captcha-box {
+width: 90%;
+max-width: 320px;
+padding: 20px;
+background: #fff;
+border-radius: 10px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+text-align: center;
+}
+
+.title {
+font-size: 16px;
+margin-bottom: 10px;
+}
+
+.question {
+font-size: 24px;
+font-weight: bold;
+margin: 15px 0;
+}
+
+input {
+width: 100%;
+padding: 12px;
+font-size: 16px;
+border: 1px solid #dadce0;
+border-radius: 6px;
+margin-bottom: 12px;
+}
+
+button {
+width: 100%;
+padding: 12px;
+font-size: 16px;
+background: #1a73e8;
+color: white;
+border: none;
+border-radius: 6px;
+}
+
+.result {
+margin-top: 10px;
+font-size: 14px;
+}
+
+/* ===== Light bar ===== */
+.light-bar-container {
+position: relative;
+width: 100%;
+height: 6px;
+margin-top: 15px;
+background: #e0e0e0;
+border-radius: 6px;
+overflow: hidden;
+}
+
+.light-bar {
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(
+120deg,
+transparent 0%,
+rgba(255,255,255,0.9) 50%,
+transparent 100%
+);
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+<div class="container">
+
+<div class="promo-box">
+N.-Ẹ-.P ĐÂU ĐÊ K1CH HOẠT TOAN BO UU ĐAI TAN THU
+</div>
+
+<div class="captcha-box">
+<div class="title">Xác minh bạn là con người</div>
+<div class="question" id="question"></div>
+
+<input type="number" id="answer" placeholder="Nhập kết quả">
+<button onclick="verify()">Xác nhận</button>
+
+<div class="result" id="result"></div>
+
+<div class="light-bar-container">
+<div class="light-bar" id="lightBar"></div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+let num1, num2, correct;
+
+function generateCaptcha() {
+num1 = Math.floor(Math.random() * 9) + 1;
+num2 = Math.floor(Math.random() * (10 - num1));
+correct = num1 + num2;
+
+document.getElementById("question").innerText =
+num1 + " + " + num2 + " = ?";
+}
+
+function verify() {
+const user = parseInt(document.getElementById("answer").value);
+const result = document.getElementById("result");
+
+if (user === correct) {
+result.style.color = "green";
+result.innerText = "✔ Đang chuyển...";
+startEffect();
+} else {
+result.style.color = "red";
+result.innerText = "✖ Sai, thử lại";
+generateCaptcha();
+}
+}
+
+function startEffect() {
+const bar = document.getElementById("lightBar");
+bar.style.transition = "left 1.5s linear";
+bar.style.left = "100%";
+
+setTimeout(() => {
+window.location.href = "https://zowin.tw/?a=eeaf480c827a5a752e805104facf8f9c&utm_campaign=tiktokads&utm_source=tc&utm_medium=conversion&utm_term=__AID__&utm_content=banner";
+}, 1500);
+}
+
+generateCaptcha();
+
+document.getElementById("answer")
+.addEventListener("keypress", function(e) {
+if (e.key === "Enter") verify();
+});
+
+document.getElementById("answer").focus();
+</script>
+
+</body>
+</html>
